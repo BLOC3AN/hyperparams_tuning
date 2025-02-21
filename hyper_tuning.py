@@ -27,12 +27,12 @@ def build_bilstm(trial):
                 units = trial.suggest_int("units_1", 64, 256, step=32),
                 return_sequences=True,
                 kernel_regularizer=regularizers.l1_l2(
-                    l1=trial.suggest_float("l1_1_layer1", 1e-3, 1e-1),
-                    l2=trial.suggest_float("l2_1_layer1", 1e-3, 1e-1),
+                    l1=trial.suggest_float("l1_1_layer1", 1e-3, 3e-1),
+                    l2=trial.suggest_float("l2_1_layer1", 1e-3, 3e-1),
                     ),
                 recurrent_regularizer=regularizers.l1_l2(
-                    l1=trial.suggest_float("l1_2_layer1", 1e-3, 1e-1),
-                    l2=trial.suggest_float("l2_2_layer1", 1e-3, 1e-1),
+                    l1=trial.suggest_float("l1_2_layer1", 1e-3, 3e-1),
+                    l2=trial.suggest_float("l2_2_layer1", 1e-3, 3e-1),
                     ),
                 )),
             Dropout(trial.suggest_float("dropout_1", 1e-5,1e-2)),
@@ -40,30 +40,30 @@ def build_bilstm(trial):
                 units = trial.suggest_int("units_2", 64, 256, step = 32),
                 return_sequences=True,
                 kernel_regularizer=regularizers.l2(
-                    l2 = trial.suggest_float("l2_1_layer2", 1e-3, 1e-1)
+                    l2 = trial.suggest_float("l2_1_layer2", 1e-3, 3e-1)
                     ),
                 recurrent_regularizer=regularizers.l2(
-                    l2 = trial.suggest_float("l2_2_layer2", 1e-3, 1e-1)
+                    l2 = trial.suggest_float("l2_2_layer2", 1e-3, 3e-1)
                     ),
                 )),
 
-            Dropout(trial.suggest_float("dropout_2", 1e-3, 1e-1)),
+            Dropout(trial.suggest_float("dropout_2", 1e-3, 3e-1)),
             Bidirectional(LSTM(
                 units = trial.suggest_int("units_3", 64, 256, step = 32),
                 return_sequences=True,
                 kernel_regularizer=regularizers.l2(
-                    l2 = trial.suggest_float("l2_1_layer3", 1e-3, 1e-1)
+                    l2 = trial.suggest_float("l2_1_layer3", 1e-3, 3e-1)
                     ),
                 recurrent_regularizer=regularizers.l2(
-                    l2 = trial.suggest_float("l2_2_layer3", 1e-3, 1e-1)
+                    l2 = trial.suggest_float("l2_2_layer3", 1e-3, 3e-1)
                     ),
                 )) ,
 
-            Dropout(trial.suggest_float("dropout_3", 1e-3, 1e-1)),
+            Dropout(trial.suggest_float("dropout_3", 1e-3, 3e-1)),
             Bidirectional(LSTM(
                 units= trial.suggest_int("unit_4", 32,256, step = 32) ,
                 return_sequences=True)),
-            Dropout(trial.suggest_float("dropout_4", 1e-3, 1e-1)),
+            Dropout(trial.suggest_float("dropout_4", 1e-3, 3e-1)),
             Bidirectional(LSTM(
                 units= trial.suggest_int("unit_5", 32,256, step = 32) ,
                 return_sequences=True)),
@@ -72,7 +72,7 @@ def build_bilstm(trial):
             Dense(units = trial.suggest_int("Dense_2", 64,256, step = 32), activation = 'relu'),
             Dense(targets)
         ])
-    learning_rate = trial.suggest_loguniform("learning_rate", 1e-3, 1e-1)
+    learning_rate = trial.suggest_loguniform("learning_rate", 1e-3, 3e-1)
     model_BiLSTM.compile(
         optimizer=Adam(learning_rate=learning_rate, clipnorm=trial.suggest_float("clip_norm", 1.0, 3.0)),
         loss=tf.keras.losses.MeanSquaredError(),
